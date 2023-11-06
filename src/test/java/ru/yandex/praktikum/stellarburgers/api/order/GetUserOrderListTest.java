@@ -2,19 +2,17 @@ package ru.yandex.praktikum.stellarburgers.api.order;
 
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
-import ru.yandex.praktikum.stellarburgers.api.BaseTest;
-import ru.yandex.praktikum.stellarburgers.api.generators.OrderGenerator;
+import ru.yandex.praktikum.stellarburgers.api.BaseOrderTest;
 import ru.yandex.praktikum.stellarburgers.api.pojo.Order;
-import ru.yandex.praktikum.stellarburgers.api.steps.OrderSteps;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static ru.yandex.praktikum.stellarburgers.api.generators.OrderGenerator.*;
 
-public class GetUserOrderListTest extends BaseTest {
-    private final OrderSteps orderSteps = new OrderSteps();
+public class GetUserOrderListTest extends BaseOrderTest {
     @Test
     @DisplayName("Получение списка заказов пользователя авторизованным пользователем")
     public void checkGetOrderListByAuthorizedUser() {
-        Order order = OrderGenerator.randomOrder();
+        Order order = randomOrder(ingredientsHashId);
         int orderNumber = orderSteps.createOrder(accessToken, order)
                 .assertThat()
                 .statusCode(200)

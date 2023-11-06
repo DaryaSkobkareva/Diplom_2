@@ -6,16 +6,14 @@ import ru.yandex.praktikum.stellarburgers.api.utils.Utils;
 
 import java.util.List;
 
-import static ru.yandex.praktikum.stellarburgers.api.configuration.IngredientsHash.ingredientsId;
-
 public class OrderGenerator extends Utils {
     @Step("Генерация заказа")
-    public static Order randomOrder() {
+    public static Order randomOrder(List<String> ingredientsHashList) {
         List<String> ingredients = List.of
-                (ingredientsId.get(random.nextInt(ingredientsId.size())),
-                        ingredientsId.get(random.nextInt(ingredientsId.size())),
-                        ingredientsId.get(random.nextInt(ingredientsId.size())),
-                        ingredientsId.get(random.nextInt(ingredientsId.size())));
+                (ingredientsHashList.get(random.nextInt(ingredientsHashList.size())),
+                ingredientsHashList.get(random.nextInt(ingredientsHashList.size())),
+                ingredientsHashList.get(random.nextInt(ingredientsHashList.size())),
+                ingredientsHashList.get(random.nextInt(ingredientsHashList.size())));
         return new Order()
                 .withIngredients(ingredients);
     }

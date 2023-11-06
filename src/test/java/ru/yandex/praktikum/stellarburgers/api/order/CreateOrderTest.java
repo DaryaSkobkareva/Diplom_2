@@ -2,21 +2,17 @@ package ru.yandex.praktikum.stellarburgers.api.order;
 
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
-import ru.yandex.praktikum.stellarburgers.api.BaseTest;
-import ru.yandex.praktikum.stellarburgers.api.generators.OrderGenerator;
-import ru.yandex.praktikum.stellarburgers.api.pojo.Order;
-import ru.yandex.praktikum.stellarburgers.api.steps.OrderSteps;
+import ru.yandex.praktikum.stellarburgers.api.BaseOrderTest;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static ru.yandex.praktikum.stellarburgers.api.generators.OrderGenerator.*;
 
-public class CreateOrderTest extends BaseTest {
-    private Order order;
-    private final OrderSteps orderSteps = new OrderSteps();
+public class CreateOrderTest extends BaseOrderTest {
     @Test
     @DisplayName("Создание заказа авторизованным пользователем")
     public void checkCreateOrderByAuthorizedUser() {
-        order = OrderGenerator.randomOrder();
+        order = randomOrder(ingredientsHashId);
         orderSteps.createOrder(accessToken, order)
                 .assertThat()
                 .statusCode(200)
@@ -26,7 +22,7 @@ public class CreateOrderTest extends BaseTest {
     @Test
     @DisplayName("Создание заказа без ингредиентов авторизованным пользователем")
     public void checkCreateOrderWithoutIngredientsByAuthorizedUser() {
-        order = OrderGenerator.randomOrderWithoutIngredients();
+        order = randomOrderWithoutIngredients();
         orderSteps.createOrder(accessToken, order)
                 .assertThat()
                 .statusCode(400)
@@ -36,7 +32,7 @@ public class CreateOrderTest extends BaseTest {
     @Test
     @DisplayName("Создание заказа с некорректным хэшем ингредиентов авторизованным пользователем")
     public void checkCreateOrderWithInvalidIngredientsHashByAuthorizedUser() {
-        order = OrderGenerator.randomOrderWithInvalidIngredientsHash();
+        order = randomOrderWithInvalidIngredientsHash();
         orderSteps.createOrder(accessToken, order)
                 .assertThat()
                 .statusCode(500);
